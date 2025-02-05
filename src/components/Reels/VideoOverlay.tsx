@@ -2,24 +2,31 @@ import React, {ReactNode} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 type Props = {
-  headerComponent?: ReactNode;
-  contentComponent?: ReactNode;
-  actionsComponent?: ReactNode;
+  HeaderComponent?: ReactNode;
+  ContentComponent?: ReactNode;
+  ActionsComponent?: ReactNode;
 };
 
-export default function VideoOverlay({}: Props) {
+export default function VideoOverlay({
+  HeaderComponent,
+  ContentComponent,
+  ActionsComponent,
+}: Props) {
   return (
-    <View style={OverlayStyles.wrapper} pointerEvents="none">
+    <View style={OverlayStyles.wrapper}>
       <View style={OverlayStyles.container}>
         <View style={OverlayStyles.header}>
-          <Text style={OverlayStyles.text}>Header</Text>
+          {HeaderComponent}
+          {/* <Text style={OverlayStyles.text}>Header</Text> */}
         </View>
         <View style={OverlayStyles.body}>
           <View style={OverlayStyles.content}>
-            <Text style={OverlayStyles.text}>Content</Text>
+            {ContentComponent}
+            {/* <Text style={OverlayStyles.text}>Content</Text> */}
           </View>
           <View style={OverlayStyles.actions}>
-            <Text style={OverlayStyles.text}>Axns</Text>
+            {ActionsComponent}
+            {/* <Text style={OverlayStyles.text}>Axns</Text> */}
           </View>
           {/* <Text style={OverlayStyles.text}>Body</Text> */}
         </View>

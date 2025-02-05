@@ -8,6 +8,8 @@ import RNVideo, {
 } from 'react-native-video';
 import RNVideoPlayer from 'react-native-video-player';
 import VideoOverlay from './VideoOverlay';
+import Header from '../Header';
+import Content from '../Content';
 
 const {width: w, height: h} = Dimensions.get('window');
 
@@ -73,7 +75,10 @@ const VideoPlayer = () => {
         onError={handleError}
         onBuffer={handleBuffer}
       />
-      <VideoOverlay />
+      <VideoOverlay
+        HeaderComponent={<Header />}
+        ContentComponent={<Content />}
+      />
     </View>
   );
 };
