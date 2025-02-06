@@ -1,5 +1,5 @@
 import {FlashList} from '@shopify/flash-list';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Dimensions, StyleSheet, View, Text} from 'react-native';
 import {
   Directions,
@@ -9,17 +9,35 @@ import {
 import VideoPlayer from './Video';
 
 const DATA = [
-  {title: 'First Item'},
-  {title: 'Second Item'},
-  {title: 'Third Item'},
-  {title: 'Fourth Item'},
-  {title: 'Five Item'},
+  {
+    title: 'First Item',
+    url: 'https://raw.githubusercontent.com/kartikeyvaish/React-Native-UI-Components/main/src/Reels/config/videos/sample.mp4',
+  },
+  {
+    title: 'Second Item',
+    url: 'https://raw.githubusercontent.com/kartikeyvaish/React-Native-UI-Components/main/src/Reels/config/videos/sampleLandscape.mp4',
+  },
+  {
+    title: 'Third Item',
+    url: 'https://raw.githubusercontent.com/kartikeyvaish/React-Native-UI-Components/main/src/Reels/config/videos/samplePortrait.mp4',
+  },
 ];
 
 const {width: w, height: h} = Dimensions.get('window');
 
 const List = () => {
   const flashListRef = useRef<FlashList<any> | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 50,
+  };
+
+  const onViewableItemsChanged = useRef(({viewableItems}) => {
+    if (viewableItems.length > 0) {
+      setActiveIndex(viewableItems[0].index);
+    }
+  }).current;
 
   const fling = Gesture.Fling()
     .direction(Directions.UP)
@@ -33,20 +51,24 @@ const List = () => {
         <FlashList
           ref={flashListRef}
           data={DATA}
-          renderItem={ListItem}
+          renderItem={({item, index}) => (
+            <ListItem item={item} isActive={index === activeIndex} />
+          )}
           estimatedItemSize={h}
           pagingEnabled
+          viewabilityConfig={viewabilityConfig}
+          onViewableItemsChanged={onViewableItemsChanged}
         />
       </View>
     </GestureDetector>
   );
 };
 
-const ListItem = ({item}) => {
+const ListItem = ({item, isActive}) => {
   return (
     <View style={ListItemStyles.container}>
       {/* <Text>{item.title}</Text> */}
-      <VideoPlayer />
+      <VideoPlayer url={item.url as string} isActive={isActive} />
     </View>
   );
 };

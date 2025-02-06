@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import RNVideo, {
   OnBufferData,
@@ -6,7 +6,7 @@ import RNVideo, {
   OnVideoErrorData,
   VideoRef,
 } from 'react-native-video';
-import RNVideoPlayer from 'react-native-video-player';
+import RNVideoPlayer, {VideoPlayerRef} from 'react-native-video-player';
 import VideoOverlay from './VideoOverlay';
 import Header from '../Header';
 import Content from '../Content';
@@ -19,33 +19,47 @@ const v = [
   'https://raw.githubusercontent.com/kartikeyvaish/React-Native-UI-Components/main/src/Reels/config/videos/samplePortrait.mp4',
 ];
 
-const VideoPlayer = () => {
-  const videoRef = useRef<VideoRef>(null);
+const VideoPlayer = ({url, isActive}: {url: string; isActive: boolean}) => {
+  // const videoRef = useRef<VideoRef>(null);
+  const videoPlayerRef = useRef<VideoPlayerRef>(null);
 
   function handleLoad(e: OnLoadData) {
-    console.log('Loaded');
+    console.log('Loaded', url);
+    // if (videoPlayerRef.current) {
+    //   videoPlayerRef.current.pause();
+    //   videoPlayerRef.current.resume();
+    // }
   }
-  function handleBuffer(e: OnBufferData) {
-    console.log('Buffering...', e.isBuffering);
-  }
-  function handleError(e: OnVideoErrorData) {
-    console.log('Error', e.error);
-  }
+  // function handleBuffer(e: OnBufferData) {
+  //   console.log('Buffering...', e.isBuffering);
+  // }
+  // function handleError(e: OnVideoErrorData) {
+  //   console.log('Error', e.error);
+  // }
+
+  // useEffect(() => {
+  //   console.log('VideoPlayerRef', videoPlayerRef.current);
+  //   if (videoPlayerRef.current) {
+  //     videoPlayerRef.current.resume();
+  //   }
+  // }, [videoPlayerRef]);
 
   return (
     <View style={VideoStyles.playerWrapperView}>
       <RNVideoPlayer
         // ref={videoRef}
-        source={{uri: v[0]}}
+        ref={videoPlayerRef}
+        source={{uri: url}}
         // resizeMode="contain"
         volume={1}
         autoplay={true}
         pauseOnPress={true}
-        // paused={false}
+        paused={!isActive}
+        // defaultMuted={true}
+        // muted={true}
         // repeat={true}
-        // muted={false}
-        // playInBackground={true}
-        // playWhenInactive={true}
+        playInBackground={false}
+        playWhenInactive={false}
         // style={VideoStyles.video}
         videoWidth={w}
         videoHeight={h - 48}
@@ -72,13 +86,13 @@ const VideoPlayer = () => {
         //   hidePosition: true,
         // }}
         onLoad={handleLoad}
-        onError={handleError}
-        onBuffer={handleBuffer}
+        // onError={handleError}
+        // onBuffer={handleBuffer}
       />
-      <VideoOverlay
+      {/* <VideoOverlay
         HeaderComponent={<Header />}
         ContentComponent={<Content />}
-      />
+      /> */}
     </View>
   );
 };
