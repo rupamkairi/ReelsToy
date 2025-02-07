@@ -10,19 +10,24 @@ import VideoPlayer from './Video';
 
 const DATA = [
   {
-    id: '3',
-    title: 'Third Item',
-    url: 'https://raw.githubusercontent.com/kartikeyvaish/React-Native-UI-Components/main/src/Reels/config/videos/samplePortrait.mp4',
+    id: '0',
+    title: 'Mux Demo',
+    url: 'https://stream.mux.com/JYgw3UJVJ6g008AGEqPCZBQOg01YXcGw9hd9jTwsemsjc/720p.mp4',
   },
   {
     id: '1',
-    title: 'First Item',
-    url: 'https://raw.githubusercontent.com/kartikeyvaish/React-Native-UI-Components/main/src/Reels/config/videos/sample.mp4',
+    title: 'Mux Video',
+    url: 'https://stream.mux.com/LBct00Mb011XT5UM7BAvSQU01YlEtACffbc212eWxcT1Zg/1080p.mp4',
   },
   {
     id: '2',
-    title: 'Second Item',
-    url: 'https://raw.githubusercontent.com/kartikeyvaish/React-Native-UI-Components/main/src/Reels/config/videos/sampleLandscape.mp4',
+    title: 'Mux Player',
+    url: 'https://stream.mux.com/PnAJ9Nq56EyReQvPQsIA018b1gy6SwFRLQMFv2Tvqk6s/720p.mp4',
+  },
+  {
+    id: '3',
+    title: 'Mux Data',
+    url: 'https://stream.mux.com/Eld4CwamMzVGN1OBRXJOOy9tGZSTCAbNdWarsRvDUEk/1080p.mp4',
   },
 ];
 
@@ -82,13 +87,21 @@ const List = () => {
   );
 };
 
-const ListItem = React.memo(({item, isActive}) => {
-  return (
-    <View style={ListItemStyles.container}>
-      <VideoPlayer url={item.url} isActive={isActive} />
-    </View>
-  );
-});
+const ListItem = React.memo(
+  ({
+    item,
+    isActive,
+  }: {
+    item: {id: string; title: string; url: string};
+    isActive: boolean;
+  }) => {
+    return (
+      <View style={ListItemStyles.container}>
+        <VideoPlayer url={item.url} isActive={isActive} />
+      </View>
+    );
+  },
+);
 
 export default List;
 
